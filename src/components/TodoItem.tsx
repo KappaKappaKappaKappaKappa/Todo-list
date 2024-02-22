@@ -1,8 +1,14 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { removeTodo, toggleCompleteTodo } from "../store/todoSlice";
+import type { Todo } from "../store/todoSlice";
 
-export default function TodoItem({ todo, index }) {
+interface TodoItemProps {
+  todo: Todo;
+  index: number;
+}
+
+const TodoItem: React.FC<TodoItemProps> = ({ todo, index }) => {
   const dispatch = useDispatch();
   return (
     <li
@@ -33,4 +39,6 @@ export default function TodoItem({ todo, index }) {
       </div>
     </li>
   );
-}
+};
+
+export default TodoItem;

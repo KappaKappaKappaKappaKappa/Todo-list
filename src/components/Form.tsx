@@ -1,5 +1,6 @@
-import React from "react";
+import React, { ChangeEvent, KeyboardEvent } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import type { TodoState } from "../store/todoSlice";
 import {
   updateInputValue,
   updateValueValid,
@@ -7,11 +8,15 @@ import {
   checkValueValid,
 } from "../store/todoSlice";
 
-export default function Form() {
+const Form: React.FC = () => {
   const dispatch = useDispatch();
 
-  const valueValid = useSelector((state) => state.todos.valueValid);
-  const inputValue = useSelector((state) => state.todos.inputValue);
+  const valueValid = useSelector(
+    (state: { todos: TodoState }) => state.todos.valueValid
+  );
+  const inputValue = useSelector(
+    (state: { todos: TodoState }) => state.todos.inputValue
+  );
 
   const addTask = () => {
     if (valueValid) {
@@ -23,12 +28,12 @@ export default function Form() {
     }
   };
 
-  const changeInputValue = (e) => {
+  const changeInputValue = (e: ChangeEvent<HTMLInputElement>) => {
     dispatch(updateInputValue(e.target.value));
     dispatch(checkValueValid({ inputValue }));
   };
 
-  const handleKeyDown = (e) => {
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && valueValid) {
       dispatch(addTodo({ inputValue }));
       dispatch(updateInputValue(""));
@@ -63,4 +68,6 @@ export default function Form() {
       </button>
     </>
   );
-}
+};
+
+export default Form;
