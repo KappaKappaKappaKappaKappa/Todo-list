@@ -1,9 +1,11 @@
 import React from "react";
+import { useDispatch } from "react-redux";
+import { removeTodo, toggleCompleteTodo } from "../store/todoSlice";
 
-export default function TodoItem({todo, index, toggleCompleteTodo, removeTodo}) {
+export default function TodoItem({ todo, index }) {
+  const dispatch = useDispatch();
   return (
     <li
-      key={todo.id}
       className={`flex bg-[#2f2f32] border-[1px] rounded-full px-[20px] py-[10px] justify-between ${
         todo.complete ? "border-lime-500" : "border-[#fc0]"
       }`}
@@ -17,13 +19,13 @@ export default function TodoItem({todo, index, toggleCompleteTodo, removeTodo}) 
       </p>
       <div className="flex gap-[10px]">
         <button
-          onClick={() => toggleCompleteTodo(todo.id)}
+          onClick={() => dispatch(toggleCompleteTodo({ id: todo.id }))}
           className="px-[10px] text-white border-[1px] border-lime-500 rounded-full hover:opacity-80"
         >
           &#x2713; Изменить статус
         </button>
         <button
-          onClick={() => removeTodo(todo.id)}
+          onClick={() => dispatch(removeTodo({ id: todo.id }))}
           className="text-white border-[1px] border-rose-700 rounded-full px-[10px] hover:opacity-80"
         >
           &#x2715; Удалить
