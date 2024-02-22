@@ -1,18 +1,25 @@
-import { useState } from "react";
+import { useState, ChangeEvent, KeyboardEvent } from "react";
+import React from "react";
 import TodoList from "./components/TodoList";
 import Form from "./components/Form";
 
-function App() {
-  const [todos, setTodos] = useState([]);
-  const [inputValue, setInputValue] = useState("");
-  const [valueValid, isValueValid] = useState(undefined);
+export interface Todo {
+  id: string;
+  text: string;
+  completed: boolean;
+}
 
-  const changeInputValue = (e) => {
+const App: React.FC = () => {
+  const [todos, setTodos] = useState<Todo[]>([]);
+  const [inputValue, setInputValue] = useState<string>("");
+  const [valueValid, isValueValid] = useState<undefined | boolean>(undefined);
+
+  const changeInputValue = (e: ChangeEvent<HTMLInputElement>): void => {
     setInputValue(e.target.value);
-    checkValueValid(inputValue);
+    checkValueValid();
   };
 
-  const addTodo = () => {
+  const addTodo = (): void => {
     if (valueValid) {
       setTodos([
         ...todos,
@@ -23,33 +30,34 @@ function App() {
         },
       ]);
       setInputValue("");
+      isValueValid(undefined);
     } else {
       isValueValid(false);
     }
   };
 
-  const removeTodo = (id) => {
+  const removeTodo = (id: string): void => {
     const updatedTodos = todos.filter((item) => id !== item.id);
     setTodos(updatedTodos);
   };
 
-  const toggleCompleteTodo = (id) => {
+  const toggleCompleteTodo = (id: string): void => {
     const updatedTodos = todos.map((todo) => {
       if (id === todo.id) {
-        return { ...todo, complete: !todo.complete };
+        return { ...todo, completed: !todo.completed };
       }
       return todo;
     });
     setTodos(updatedTodos);
   };
 
-  const handleKeyDown = (e) => {
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>): void => {
     if (e.key === "Enter") {
-      addTodo(inputValue);
+      addTodo();
     }
   };
 
-  const checkValueValid = () => {
+  const checkValueValid = (): void => {
     if (inputValue.length >= 2) {
       isValueValid(true);
     } else {
@@ -74,6 +82,6 @@ function App() {
       />
     </main>
   );
-}
+};
 
 export default App;

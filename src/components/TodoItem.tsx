@@ -1,16 +1,28 @@
 import React from "react";
+import type { Todo } from "../App";
 
-export default function TodoItem({todo, index, toggleCompleteTodo, removeTodo}) {
+interface TodoItemProps {
+  todo: Todo;
+  index: number;
+  toggleCompleteTodo: (id: string) => void;
+  removeTodo: (id: string) => void;
+}
+
+const TodoItem: React.FC<TodoItemProps> = ({
+  todo,
+  index,
+  toggleCompleteTodo,
+  removeTodo,
+}) => {
   return (
     <li
-      key={todo.id}
       className={`flex bg-[#2f2f32] border-[1px] rounded-full px-[20px] py-[10px] justify-between ${
-        todo.complete ? "border-lime-500" : "border-[#fc0]"
+        todo.completed ? "border-lime-500" : "border-[#fc0]"
       }`}
     >
       <p
         className={`text-white text-[20px] ${
-          todo.complete ? "line-through decoration-red-500" : ""
+          todo.completed ? "line-through decoration-red-500" : ""
         }`}
       >
         {`${index + 1}. ${todo.text}`}
@@ -31,4 +43,6 @@ export default function TodoItem({todo, index, toggleCompleteTodo, removeTodo}) 
       </div>
     </li>
   );
-}
+};
+
+export default TodoItem;
