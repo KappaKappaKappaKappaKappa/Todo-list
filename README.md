@@ -18,7 +18,7 @@
 - React Hooks
 - JS
 - Tailwind
-и
+---------------
 - React
 - TypeScript
 - Redux Toolkit
